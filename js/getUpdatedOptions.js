@@ -2,25 +2,6 @@ function getYAxisData (options, showMinMaxObj) {
   return options.yAxis
 };
 
-/**
-  {
-    "yAxisIndex0": {
-        "min": 135,
-        "max": 631,
-        "delta": 496
-    },
-    "yAxisIndex1": {
-        "min": -25,
-        "max": 24,
-        "delta": 49
-    },
-    "yAxisIndex2": {
-        "min": -2.6,
-        "max": 8.5,
-        "delta": 11.1
-    }
-  }
- */
 function getDeltaObj (options, from, to) {
   return options.series.reduce((acc, cv, index) => {
     const name = `yAxisIndex${cv.yAxisIndex || 0}`;
@@ -69,8 +50,35 @@ function getDeltaObj (options, from, to) {
   }, {});
 };
 
+function getVirtualMinMaxObjForKey (deltaObj, delta, key) {
+  function getFactor (minMaxKey) {
+    return deltaObj[key][minMaxKey] / delta;
+  }
+
+  return Object.entries(deltaObj).reduce((acc, [innerKey, innerValue]) => {
+    if (innerKey === key) return acc;
+
+    if (delta === 0) {
+      acc[innerKey] = { virtualMax: innerValue.max, virtualMin: innerValue.min };
+      return acc;
+    }
+    const virtualResult = {
+      virtualMax: (getFactor('max') * innerValue.delta),
+      virtualMin: (getFactor('min') * innerValue.delta),
+    };
+    acc[innerKey] = virtualResult;
+    return acc;
+  }, {});
+};
+
 function getVirtualMinMax (deltaObj) {
-  return deltaObj
+  return Object.entries(deltaObj).reduce((acc, [key, value]) => {
+    const { delta } = value;
+    const virtualMinMaxObj = getVirtualMinMaxObjForKey(deltaObj, delta, key);
+
+    acc[key] = virtualMinMaxObj;
+    return acc;
+  }, {});
 };
 
 function getShowMinMax (deltaObj, virtualMinMaxObj) {
@@ -84,9 +92,10 @@ function getExtremNumbers (showMinMaxObj, deltaObj) {
 
 export default function getUpdatedOptions (options, from, to) {
   const deltaObj = getDeltaObj(options, from, to);
-  console.log('🚀 ~ file: getUpdatedOptions.js ~ line 70 ~ getUpdatedOptions ~ deltaObj', deltaObj);
+  console.log('🚀 ~ file: getUpdatedOptions.js ~ line 95 ~ getUpdatedOptions ~ deltaObj', deltaObj);
 
   const virtualMinMaxObj = getVirtualMinMax(deltaObj);
+  console.log('🚀 ~ file: getUpdatedOptions.js ~ line 116 ~ getUpdatedOptions ~ virtualMinMaxObj', virtualMinMaxObj);
 
   const showMinMaxObj = getShowMinMax(deltaObj, virtualMinMaxObj);
 
