@@ -56,7 +56,6 @@ myChart.setOption({
     {
       name: 'Main',
       type: 'value',
-      id: 'main',
       nameLocation: 'center',
       nameTextStyle: {
         padding: [0, 0, 20, 0],
@@ -65,23 +64,20 @@ myChart.setOption({
     {
       name: 'Feature - 1',
       type: 'value',
-      id: 'feature-1',
       nameLocation: 'center',
-      offset: 10,
       nameTextStyle: {
         padding: [-20, 0, 0, 0],
       },
+      offset: 10,
     },
     {
       name: 'Feature - 2',
       type: 'value',
-      id: 'feature-2',
-      index: 2,
       nameLocation: 'center',
-      offset: 50,
       nameTextStyle: {
         padding: [-20, 0, 0, 0],
       },
+      offset: 50,
     }
   ],
   series: [
