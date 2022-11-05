@@ -10,6 +10,8 @@ const sampleMainXAxisData = Array.from({ length: 184 }, (_, i) => {
 const sampleMainSeriesData = sampleMainXAxisData.map(
   (_, index) => Math.floor(Math.random() * 200) + 100 + (index * 2)
 );
+sampleMainSeriesData[0] = 100;
+sampleMainSeriesData[sampleMainSeriesData.length - 1] = 700;
 
 const sampleFeatureSeriesData1_1 = sampleMainXAxisData.map(
   (_, index) => {
@@ -26,6 +28,8 @@ const sampleFeatureSeriesData1_2 = sampleMainXAxisData.map(
     return Math.floor(Math.random() * 800) - 15
   }
 );
+sampleFeatureSeriesData1_2[50] = 850;
+sampleFeatureSeriesData1_2[130] = -30;
 
 const sampleFeatureSeriesData2 = sampleMainXAxisData.map(
   (_, index) => {
@@ -34,6 +38,8 @@ const sampleFeatureSeriesData2 = sampleMainXAxisData.map(
     return Math.floor(Math.random() * 10) - 5 + (index * 0.03)
   }
 );
+sampleFeatureSeriesData2[75] = -3;
+sampleFeatureSeriesData2[155] = 10;
 
 let plotYAxis = [
   {
