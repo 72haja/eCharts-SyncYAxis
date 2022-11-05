@@ -11,11 +11,19 @@ const sampleMainSeriesData = sampleMainXAxisData.map(
   (_, index) => Math.floor(Math.random() * 200) + 100 + (index * 2)
 );
 
-const sampleFeatureSeriesData1 = sampleMainXAxisData.map(
+const sampleFeatureSeriesData1_1 = sampleMainXAxisData.map(
   (_, index) => {
     if (index <= 100 || index >= 150) return null
 
     return Math.floor(Math.random() * 50) - 25
+  }
+);
+
+const sampleFeatureSeriesData1_2 = sampleMainXAxisData.map(
+  (_, index) => {
+    if (index <= 50 || index >= 130) return null
+
+    return Math.floor(Math.random() * 80) - 15
   }
 );
 
@@ -69,7 +77,12 @@ var myChart = echarts.init(document.getElementById('main'));
 
 const options = {
   legend: {
-    data: ['Main', 'Feature 1', 'Feature 2']
+    data: [
+      'Main',
+      'Feature 1_1',
+      'Feature 1_2',
+      'Feature 2',
+    ]
   },
   tooltip: {
     trigger: 'axis',
@@ -103,9 +116,15 @@ const options = {
       name: 'Main',
     },
     {
-      data: sampleFeatureSeriesData1,
+      data: sampleFeatureSeriesData1_1,
       type: 'line',
-      name: 'Feature 1',
+      name: 'Feature 1_1',
+      yAxisIndex: 1,
+    },
+    {
+      data: sampleFeatureSeriesData1_2,
+      type: 'line',
+      name: 'Feature 1_2',
       yAxisIndex: 1,
     },
     {
