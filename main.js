@@ -23,7 +23,7 @@ const sampleFeatureSeriesData1_2 = sampleMainXAxisData.map(
   (_, index) => {
     if (index <= 50 || index >= 130) return null
 
-    return Math.floor(Math.random() * 80) - 15
+    return Math.floor(Math.random() * 800) - 15
   }
 );
 
