@@ -1,4 +1,5 @@
 import './style.css'
+import getUpdatedOptions from './js/getUpdatedOptions';
 import * as echarts from 'echarts';
 
 const sampleMainXAxisData = Array.from({ length: 184 }, (_, i) => {
@@ -117,3 +118,25 @@ const options = {
 }
 
 myChart.setOption(options);
+
+function setLocalDataZoom (dataZoom) {
+  options.dataZoom = dataZoom
+}
+
+function updateOptions (updatedOptions) {
+  myChart.setOption(updatedOptions);
+}
+
+function scale () {
+  const currentOption = myChart.getOption();
+  const { dataZoom } = currentOption;
+  setLocalDataZoom(dataZoom);
+  const { startValue, endValue } = dataZoom[0];
+  const updatedOptions = getUpdatedOptions(options, startValue, endValue + 1);
+
+  updateOptions(updatedOptions);
+};
+
+myChart.on('datazoom', 'series.candlestick', () => {
+  scale();
+});
