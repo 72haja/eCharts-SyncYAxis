@@ -120,8 +120,8 @@ function updateOptions (updatedOptions) {
 }
 
 function scale (selectedLegendEntries) {
-  const option = myChart.getOption();
-  const { dataZoom } = option;
+  const currentOption = myChart.getOption();
+  const { dataZoom } = currentOption;
   setLocalDataZoom(dataZoom);
   const { startValue, endValue } = dataZoom[0];
   const updatedOptions = getUpdatedOptions(options, startValue, endValue + 1, selectedLegendEntries);
