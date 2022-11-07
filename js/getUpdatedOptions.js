@@ -1,5 +1,29 @@
+import { formatNumber } from './numberFormatter';
+
 function getYAxisData (options, showMinMaxObj) {
-  return options.yAxis
+  return options.yAxis.map((yAxisEntry, index) => {
+    const { min, max } = showMinMaxObj[`yAxisIndex${index}`] || {};
+
+    if (min === undefined || max === undefined) {
+      return {
+        ...yAxisEntry,
+        show: false,
+      };
+    }
+
+    return {
+      ...yAxisEntry,
+      id: index,
+      min,
+      max,
+      show: true,
+      axisLabel: {
+        formatter: (val) => {
+          return formatNumber(val, 0);
+        },
+      },
+    };
+  });
 };
 
 function getDeltaObj (options, from, to) {
@@ -121,7 +145,6 @@ export default function getUpdatedOptions (options, from, to) {
   const virtualMinMaxObj = getVirtualMinMax(deltaObj);
 
   const showMinMaxObj = getShowMinMax(deltaObj, virtualMinMaxObj);
-  console.log('🚀 ~ file: getUpdatedOptions.js ~ line 124 ~ getUpdatedOptions ~ showMinMaxObj', showMinMaxObj);
 
   const yAxisData = getYAxisData(options, showMinMaxObj);
 
